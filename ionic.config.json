@@ -1,0 +1,7 @@
+{
+  "name": "ordem-compra",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
