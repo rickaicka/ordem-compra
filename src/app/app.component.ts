@@ -1,11 +1,24 @@
-import { Component } from '@angular/core';
-import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
+import {Component, inject, OnInit} from '@angular/core';
+import {Router, RouterModule} from "@angular/router";
+import {IonicModule} from "@ionic/angular";
+import { Capacitor } from '@capacitor/core';
+import {OpenedBuyOrderService} from "./opened-buy-order.service";
 
 @Component({
   selector: 'app-root',
-  templateUrl: 'app.component.html',
-  imports: [IonApp, IonRouterOutlet],
+  standalone: true,
+  imports: [IonicModule, RouterModule],
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.scss'
 })
-export class AppComponent {
-  constructor() {}
+export class AppComponent implements OnInit{
+
+  isNative = Capacitor.isNativePlatform();
+
+  constructor(private router: Router, private subjectService: OpenedBuyOrderService) {
+  }
+
+  ngOnInit() {
+    this.router.navigate(['']).then(r => this.subjectService.subjectIsNative.next(this.isNative));
+  }
 }
