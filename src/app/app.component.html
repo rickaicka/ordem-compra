@@ -1,3 +1,8 @@
 <ion-app>
-  <ion-router-outlet></ion-router-outlet>
+  <ng-container *ngIf="!isNative">
+    <app-header></app-header>
+  </ng-container>
+  <main class="daruix-ordem-container">
+    <ion-router-outlet></ion-router-outlet>
+  </main>
 </ion-app>

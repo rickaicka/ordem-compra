@@ -1,0 +1,42 @@
+.daruix-ordem-list-orders{
+  width: 1280px;
+  margin: 180px auto 0;
+  height: 80vh;
+}
+
+.table-container {
+  max-height: 500px;
+  width: 100%;
+  overflow: auto;
+  & table{
+    min-width: 1700px;
+  }
+}
+
+.cdk-header-row {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  //& th{
+  //  &:nth-child(5){
+  //    width: 200px;
+  //  }
+  //  &:nth-child(6){
+  //    width: 1300px;
+  //  }
+  //  &:nth-child(7){
+  //    width: 1100px;
+  //  }
+  //}
+}
+
+.mdc-data-table__row{
+
+}
+
+.element-table-value{
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  height: 60px;
+}

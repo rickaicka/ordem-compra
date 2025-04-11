@@ -3,6 +3,9 @@
 
 :root{
 
+  --drx-gray-base: #e5e5e5;
+  --drx-red-base: #C00D0E;
+
   --ex-pure-black: #000000;
   --ex-pure-white: #FFFFFF;
 
@@ -89,6 +92,17 @@ $gradient-white-colors:(
   'third-place-third-hexa': 139,
 );
 
+$status-order:(
+  'opened': var(--ex-blue-scale-300),
+  'undelivered': var(--ex-red-scale-300),
+  'delivered': var(--ex-green-scale-300)
+);
+$status-order-text: (
+  var(--ex-blue-scale-600)
+  var(--ex-red-scale-600)
+  var(--ex-green-scale-600)
+);
+
 @each $name, $size in $sizes{
   .raleway-#{$name}{
     font-family: "Raleway", sans-serif;
@@ -103,6 +117,24 @@ $gradient-white-colors:(
     font-weight: 500;
     font-size: $size+px;
   }
+}
+
+$i: 1;
+@each $status, $color in $status-order{
+
+  .status-#{$status}{
+    padding: 6px 12px;
+    background-color: $color;
+    font-family: "Quicksand", serif;
+    font-optical-sizing: auto;
+    font-weight: bold;
+    font-size: 12px;
+    width: 130px;
+    border-radius: 30px;
+    text-align: center;
+    color: nth($status-order-text, $i);
+  }
+  $i: $i+1;
 }
 
 @function convertVarToColor($var){

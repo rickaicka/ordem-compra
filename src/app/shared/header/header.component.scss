@@ -1,0 +1,30 @@
+.daruix-header{
+  width: 1280px;
+  height: fit-content;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin: 0 auto;
+  &__img-container{
+    & img{
+      width: 65%;
+      margin-top: -9px;
+      margin-left: -9px;
+    }
+  }
+  &__title-user{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 80%;
+    height: 90px;
+    background-color: var(--drx-red-base);
+    border-bottom-left-radius: 40px;
+    & .system-name{
+      margin: 0 auto;
+    }
+    & .user-infos{
+      width: 250px;
+    }
+  }
+}
