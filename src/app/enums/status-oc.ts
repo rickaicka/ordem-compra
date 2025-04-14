@@ -1,5 +1,5 @@
 export enum StatusOc {
-  OPENED = 0, //Em Andamento
-  UNDELIVERED = 1, //Não Entregue
-  DELIVERED = 2 //Entregue
+  OPENED = 'Em Andamento', //Em Andamento
+  UNDELIVERED = 'Não Entregue', //Não Entregue
+  DELIVERED = 'Entregue' //Entregue
 }

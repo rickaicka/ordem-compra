@@ -13,6 +13,7 @@ import {provideAnimationsAsync} from '@angular/platform-browser/animations/async
 import {provideHttpClient, withFetch} from '@angular/common/http';
 import {IonicRouteStrategy, provideIonicAngular} from "@ionic/angular/standalone";
 import {IonicModule} from "@ionic/angular";
+import {MatFormFieldModule} from "@angular/material/form-field";
 
 export const appConfig: ApplicationConfig = {
   providers: [

@@ -5,3 +5,30 @@
 body{
   background-color: var(--drx-gray-base);
 }
+
+.ion-page{
+  overflow: auto!important;
+  padding-bottom: 32px;
+}
+
+
+.mat-mdc-form-field-flex{
+  height: 40px!important;
+}
+.mdc-floating-label{
+  height: 40px!important;
+
+}
+.mat-mdc-form-field-infix{
+  height: 40px!important;
+  padding: 0 !important;
+  display: flex!important;
+  align-items: center!important;
+}
+.mat-mdc-floating-label{
+  display: flex;
+  align-items: center;
+}
+.mat-mdc-form-field-bottom-align{
+  display:none;
+}

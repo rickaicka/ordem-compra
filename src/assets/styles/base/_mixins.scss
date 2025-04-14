@@ -1,0 +1,35 @@
+@use "_variables" as *;
+
+@mixin custom-scrollbar(
+  $width: 8px,
+  $track-color: #f0f0f0,
+  $thumb-color: get-color(var(--drx-red-base)),
+  $thumb-hover: get-color(var(--ex-red-scale-600))
+) {
+  &::-webkit-scrollbar {
+    width: $width;
+    height: $width;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: $track-color;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: $thumb-color;
+    border-radius: 4px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: $thumb-hover;
+  }
+
+  scrollbar-width: thin;
+  scrollbar-color: $thumb-color $track-color;
+}
+
+@function get-color($color){
+  @return $color;
+}

@@ -7,4 +7,5 @@ export interface IOpenedBuyOrder {
   supplier: any;
   description: any;
   status: any;
+  classStatus?: string;
 }
