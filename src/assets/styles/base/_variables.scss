@@ -1,5 +1,5 @@
 @use "sass:meta";
-@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap');
 
 :root{
 
@@ -80,18 +80,6 @@ $sizes:(
   'xxm':32,
 );
 
-$gradient-white-colors:(
-  'first-place-first-hexa': 241,
-  'first-place-second-hexa': 241,
-  'first-place-third-hexa': 241,
-  'second-place-first-hexa': 212,
-  'second-place-second-hexa': 212,
-  'second-place-third-hexa': 212,
-  'third-place-first-hexa': 139,
-  'third-place-second-hexa': 139,
-  'third-place-third-hexa': 139,
-);
-
 $status-order:(
   'opened': var(--ex-blue-scale-300),
   'undelivered': var(--ex-red-scale-300),
@@ -105,17 +93,17 @@ $status-order-text: (
 
 @each $name, $size in $sizes{
   .raleway-#{$name}{
-    font-family: "Raleway", sans-serif;
-    font-optical-sizing: auto;
-    font-weight: 400;
-    font-size: $size+px;
+    font-family: "Raleway", sans-serif !important;
+    font-optical-sizing: auto !important;
+    font-weight: 400 !important;
+    font-size: $size+px !important;
   }
 
   .quicksand-#{$name}{
-    font-family: "Quicksand", serif;
-    font-optical-sizing: auto;
-    font-weight: 500;
-    font-size: $size+px;
+    font-family: "Quicksand", serif !important;
+    font-optical-sizing: auto !important;
+    font-weight: 500 !important;
+    font-size: $size+px !important;
   }
 }
 
@@ -133,6 +121,10 @@ $i: 1;
     border-radius: 30px;
     text-align: center;
     color: nth($status-order-text, $i);
+    &--mobile{
+      margin: 0 auto;
+      width: 115px;
+    }
   }
   $i: $i+1;
 }

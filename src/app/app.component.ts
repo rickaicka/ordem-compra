@@ -3,13 +3,13 @@ import {Router, RouterModule} from "@angular/router";
 import {IonicModule} from "@ionic/angular";
 import { Capacitor } from '@capacitor/core';
 import {OpenedBuyOrderService} from "./services/opened-buy-order.service";
-import {NgIf} from "@angular/common";
+import {NgClass, NgIf} from "@angular/common";
 import {HeaderComponent} from "./shared/header/header.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [IonicModule, RouterModule, NgIf, HeaderComponent],
+  imports: [IonicModule, RouterModule, NgIf, HeaderComponent, NgClass],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

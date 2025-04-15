@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, forwardRef, inject, OnInit, ViewChild} from '@angular/core';
 import {OpenedBuyOrderService} from "../services/opened-buy-order.service";
-import {IonicModule} from "@ionic/angular";
+import {InfiniteScrollCustomEvent, IonicModule} from "@ionic/angular";
 import {ApiResponse} from "../interfaces/api-response.interface";
 import {IOpenedBuyOrder} from "../interfaces/order-opened.interface";
 import {MatTableDataSource, MatTableModule} from "@angular/material/table";
@@ -15,6 +15,9 @@ import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} fr
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {filter, from} from "rxjs";
 import {MatButtonModule} from "@angular/material/button";
+import {CustomValidators} from "../shared/validators/custom-validators";
+import {NgForOf, NgIf} from "@angular/common";
+import {PcNumberSplitPipe} from "../shared/pipes/pc-number-split.pipe";
 
 @Component({
   selector: 'app-order-buy-opened',
@@ -26,12 +29,16 @@ import {MatButtonModule} from "@angular/material/button";
     MatPaginatorModule,
     MatSortModule,
     FormatStringPipe,
+    PcNumberSplitPipe,
     MatFormFieldModule,
     MatInputModule,
     FormsModule,
     ReactiveFormsModule,
     MatIcon,
-    MatButtonModule
+    MatButtonModule,
+    NgIf,
+    NgForOf,
+
   ],
   standalone: true
 })
@@ -45,16 +52,17 @@ export class OrderBuyOpenedPage implements OnInit, AfterViewInit  {
   openedOrders: IOpenedBuyOrder[] = [];
   displayedColumns: string[] = ['pc_number', 'cod', 'dt_solicitation', 'dt_delivery', 'buy_order_value', 'supplier', 'description', 'status'];
   dataSource = new MatTableDataSource<IOpenedBuyOrder>();
-  classStatus:string = '';
 
-  readonly pc_number = new FormControl();
+  readonly pc_number: any;
 
   private _liveAnnouncer = inject(LiveAnnouncer);
   private originalListData = new MatTableDataSource<IOpenedBuyOrder>();
   constructor() {
     this.openedBuyOrders.subjectIsNative.subscribe(isNative => {
-      this.showMobile = isNative
-    })
+      this.showMobile = isNative;
+    });
+    this.pc_number = new FormControl((this.showMobile ? null : ''),(this.showMobile ? [CustomValidators.isNumber()] : undefined));
+
   }
 
   ngOnInit() {
@@ -99,12 +107,13 @@ export class OrderBuyOpenedPage implements OnInit, AfterViewInit  {
     }
   }
 
-  filterByPcNumber(pcNumber: string) {
+  filterByPcNumber(pcNumber: number | string) {
     let newDataSource: IOpenedBuyOrder[] = [];
-    if(pcNumber){
+    const pcString = this.showMobile ? `PC${pcNumber}` : pcNumber;
+    if(pcString){
       this.originalListData.data = this.dataSource.data;
       const source = from(this.dataSource.data);
-      const filterSource = source.pipe(filter(oc => oc.pc_number === pcNumber));
+      const filterSource = source.pipe(filter(oc => oc.pc_number === pcString));
       filterSource.subscribe(filter => {
         if (filter) {
           newDataSource.push(filter);
@@ -116,5 +125,12 @@ export class OrderBuyOpenedPage implements OnInit, AfterViewInit  {
       this.dataSource.data = this.originalListData.data;
       this.dataSource.paginator = this.paginator;
     }
+  }
+
+  onIonInfinite(event: InfiniteScrollCustomEvent) {
+    //this.generateItems();
+    setTimeout(() => {
+      event.target.complete();
+    }, 500);
   }
 }

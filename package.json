@@ -8,12 +8,12 @@
     "start": "ng serve",
     "build": "ng build",
     "build:web": "ionic build --configuration=development --base-href=/ordem-compra/",
-    "build:mobile": "ionic build --configuration=production --base-href=/ && npx cap copy",
+    "build:mobile": "ionic build --configuration=production --base-href=/ && npx cap copy && npx cap sync",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint",
     "sync": "npx cap sync",
-    "run:android": "npm run build:mobile && npx cap sync && npx cap run android"
+    "run:android": "npm run build:mobile && npx cap run android"
   },
   "private": true,
   "dependencies": {

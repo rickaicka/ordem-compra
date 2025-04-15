@@ -1,67 +1,138 @@
-<section class="daruix-ordem-list-orders">
+<ng-container *ngIf="!showMobile">
+  <section class="daruix-ordem-list-orders">
+    <div class="table-container__filter-pc">
+      <mat-form-field appearance="outline">
+        <mat-label>Filtre por PC</mat-label>
+        <input matInput [formControl]="pc_number" type="{{showMobile ? 'number' : 'text'}}" placeholder="Número do PC">
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+      <button mat-button (click)="filterByPcNumber(pc_number.getRawValue())" class="btn-form quicksand-m">Filtrar</button>
+    </div>
+    <div class="table-container">
 
-  <div class="table-container__filter-pc">
-    <mat-form-field appearance="outline">
-      <mat-label>Filtre por PC</mat-label>
-      <input matInput [formControl]="pc_number" placeholder="Número do PC">
-      <mat-icon matSuffix>search</mat-icon>
-    </mat-form-field>
-    <button mat-button (click)="filterByPcNumber(pc_number.getRawValue())" class="btn-form raleway-m">Filtrar</button>
-  </div>
+      <table mat-table [dataSource]="dataSource"  class="mat-elevation-z8" matSort (matSortChange)="announceSortChange($event)">
 
-  <div class="table-container">
+        <ng-container matColumnDef="pc_number">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by Pc Number" >  <div class="element-table-value bold quicksand-sm">PC</div></th>
+          <td mat-cell *matCellDef="let element"> <div class="element-table-value quicksand-sm">{{element?.pc_number}} </div></td>
+        </ng-container>
 
+        <ng-container matColumnDef="cod">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by OC Number">  <div class="element-table-value bold quicksand-sm">OC N°</div> </th>
+          <td mat-cell *matCellDef="let element"> <div class="element-table-value quicksand-sm">{{element?.cod}} </div> </td>
+        </ng-container>
 
-    <table mat-table [dataSource]="dataSource"  class="mat-elevation-z8" matSort (matSortChange)="announceSortChange($event)">
+        <ng-container matColumnDef="dt_solicitation">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by Buy Order">  <div class="element-table-value bold quicksand-sm">DATA DA COMPRA </div></th>
+          <td mat-cell *matCellDef="let element"> <div class="element-table-value quicksand-sm">{{element?.dt_solicitation}} </div> </td>
+        </ng-container>
 
-    <ng-container matColumnDef="pc_number">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by Pc Number" >  <div class="element-table-value">PC</div></th>
-      <td mat-cell *matCellDef="let element"> <div class="element-table-value">{{element?.pc_number}} </div></td>
-    </ng-container>
+        <ng-container matColumnDef="dt_delivery">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by Delivered Date"> <div class="element-table-value bold quicksand-sm">DATA DE ENTREGA </div></th>
+          <td mat-cell *matCellDef="let element"> <div class="element-table-value quicksand-sm">{{element?.dt_delivery}} </div> </td>
+        </ng-container>
 
-    <ng-container matColumnDef="cod">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by OC Number">  <div class="element-table-value">OC N°</div> </th>
-      <td mat-cell *matCellDef="let element"> <div class="element-table-value">{{element?.cod}} </div> </td>
-    </ng-container>
+        <ng-container matColumnDef="buy_order_value">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by OC Value">  <div class="element-table-value bold quicksand-sm">OC VALOR </div></th>
+          <td mat-cell *matCellDef="let element"> <div class="element-table-value quicksand-sm">{{element?.buy_order_value}} </div> </td>
+        </ng-container>
 
-    <ng-container matColumnDef="dt_solicitation">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by Buy Order">  <div class="element-table-value">DATA DA COMPRA </div></th>
-      <td mat-cell *matCellDef="let element"> <div class="element-table-value">{{element?.dt_solicitation}} </div> </td>
-    </ng-container>
+        <ng-container matColumnDef="supplier">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by Supplier">  <div class="element-table-value bold quicksand-sm">FORNECEDOR </div></th>
+          <td mat-cell *matCellDef="let element"> <div class="element-table-value quicksand-sm">{{element?.supplier | formatString:50}} </div> </td>
+        </ng-container>
 
-    <ng-container matColumnDef="dt_delivery">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by Delivered Date"> <div class="element-table-value">DATA DE ENTREGA </div></th>
-      <td mat-cell *matCellDef="let element"> <div class="element-table-value">{{element?.dt_delivery}} </div> </td>
-    </ng-container>
+        <ng-container matColumnDef="description">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by Pc Description"> <div class="element-table-value bold quicksand-sm"> DESCRIÇÃO </div></th>
+          <td mat-cell *matCellDef="let element"> <div class="element-table-value quicksand-sm">{{element?.description | formatString:50}} </div></td>
+        </ng-container>
 
-    <ng-container matColumnDef="buy_order_value">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by OC Value">  <div class="element-table-value">OC VALOR </div></th>
-      <td mat-cell *matCellDef="let element"> <div class="element-table-value">{{element?.buy_order_value}} </div> </td>
-    </ng-container>
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by Status"> <div class="element-table-value bold quicksand-sm"> STATUS </div></th>
+          <td mat-cell *matCellDef="let element"> <div class="element-table-value quicksand-sm"> <p class="{{element?.classStatus}}">{{element?.status}}</p> </div></td>
+        </ng-container>
 
-    <ng-container matColumnDef="supplier">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by Supplier">  <div class="element-table-value">FORNECEDOR </div></th>
-      <td mat-cell *matCellDef="let element"> <div class="element-table-value">{{element?.supplier | formatString:50}} </div> </td>
-    </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns" class="mat-elevation-z4"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </div>
+    <mat-paginator
+      [length]="openedOrders.length"
+      [pageSize]="10"
+      [pageSizeOptions]="[5, 10, 25, 100]"
+      showFirstLastButtons>
+    </mat-paginator>
+  </section>
+</ng-container>
 
-    <ng-container matColumnDef="description">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by Pc Description"> <div class="element-table-value"> DESCRIÇÃO </div></th>
-      <td mat-cell *matCellDef="let element"> <div class="element-table-value">{{element?.description | formatString:50}} </div></td>
-    </ng-container>
+<ng-container *ngIf="showMobile">
+  <ion-content class="ion-padding">
+    <ion-list [class]="'container'">
+      <ion-accordion-group [class]="'daruix-accordion'">
+        <ion-accordion value="{{i}}" *ngFor="let item of dataSource.data; index as i;" [class]="'daruix-accordion__item'">
+          <ion-item slot="header" [class]="'daruix-accordion__item__header'">
+            <ion-card [class]="'daruix-accordion__item__header__card'">
+              <ion-card-header [class]="'daruix-accordion__item__header__card__card-header'">
+                <ion-grid [class]="'daruix-grid-container'">
+                  <ion-row>
+                    <ion-col size="4">
+                      <span class="quicksand-sm bold">PC:</span><br/>
+                      <span class="quicksand-m bolder">{{item?.pc_number | pcNumberSplit}}</span>
+                    </ion-col>
+                    <ion-col size="2"></ion-col>
+                    <ion-col size="6" [class]="'daruix-grid-container__column'">
+                      <p class="{{item?.classStatus}} {{item?.classStatus+'--mobile'}}"> {{item?.status}}</p>
+                    </ion-col>
+                  </ion-row>
+                </ion-grid>
+              </ion-card-header>
 
-      <ng-container matColumnDef="status">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by Status"> <div class="element-table-value"> STATUS </div></th>
-        <td mat-cell *matCellDef="let element"> <div class="element-table-value"> <p class="{{element?.classStatus}}">{{element?.status}}</p> </div></td>
-      </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="displayedColumns" class="mat-elevation-z4"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  </table>
-  </div>
-  <mat-paginator
-    [length]="openedOrders.length"
-    [pageSize]="10"
-    [pageSizeOptions]="[5, 10, 25, 100]"
-    showFirstLastButtons>
-  </mat-paginator>
-</section>
+<!--              <ion-card-content>-->
+<!--                Here's a small text description for the card content. Nothing more, nothing less.-->
+<!--              </ion-card-content>-->
+            </ion-card>
+          </ion-item>
+          <div class="ion-padding container-slot" slot="content">
+            <div class="details-pc">
+              <ion-list>
+                <ion-item lines="full" class="detail-item">
+                  <p class="grid-detail">
+                    <span class="quicksand-sm bold">OC N°</span>
+                    <span class="quicksand-m">{{item?.cod}}</span>
+                  </p>
+                </ion-item>
+                <ion-item lines="full" class="detail-item">
+                  <p class="grid-detail">
+                    <span class="quicksand-sm bold">OC VALOR</span>
+                    <span class="quicksand-m">{{item?.buy_order_value}}</span>
+                  </p>
+                </ion-item>
+                <ion-item lines="full" class="detail-item">
+                  <p class="grid-detail">
+                    <span class="quicksand-sm bold">DATA DA COMPRA</span>
+                    <span class="quicksand-m">{{item?.dt_solicitation}}</span>
+                  </p>
+                </ion-item>
+                <ion-item lines="full" class="detail-item">
+                  <p class="grid-detail">
+                    <span class="quicksand-sm bold">DATA DE ENTREGA</span>
+                    <span class="quicksand-m">{{item?.dt_delivery}}</span>
+                  </p>
+                </ion-item>
+                <ion-item lines="full" class="detail-item">
+                  <p class="grid-detail">
+                    <span class="quicksand-sm bold">FORNECEDOR</span>
+                    <span class="quicksand-m">{{item?.supplier | formatString:20}}</span>
+                  </p>
+                </ion-item>
+              </ion-list>
+            </div>
+          </div>
+        </ion-accordion>
+      </ion-accordion-group>
+    </ion-list>
+    <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
+      <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+  </ion-content>
+</ng-container>

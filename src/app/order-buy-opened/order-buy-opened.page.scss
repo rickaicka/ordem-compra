@@ -7,7 +7,7 @@
 }
 
 .table-container {
-  max-height: 500px;
+  max-height: 600px;
   width: 100%;
   overflow: auto;
   @include custom-scrollbar();
@@ -24,6 +24,14 @@
       color: var(--ex-purple-scale-400)
     }
   }
+}
+
+
+.bold{
+  font-weight: bold!important;
+}
+.bolder{
+  font-weight: bolder!important;
 }
 
 .cdk-header-row {
@@ -44,7 +52,63 @@
 }
 
 .btn-form{
-  background-color: var(--ex-purple-scale-300)!important;
-  color: var(--ex-purple-scale-400)!important;
+  background-color: var(--ex-neutral-scale-200)!important;
+  color: var(--ex-neutral-scale-300)!important;
+}
+
+ion-content {
+  --background: var(--drx-gray-base);
+  & .container{
+    margin-top: 90px!important;
+  }
+  & .daruix-accordion{
+    &__item{
+      &__header{
+        &__card{
+          width: 100%;
+          height: 60px;
+          background-color: var(--ex-neutral-scale-50)!important;
+          &__card-header{
+            padding: 0!important;
+            & .daruix-grid-container{
+              padding-left: 6px;
+              padding-right: 12px;
+              margin-left: 6px;
+              margin-right: 6px;
+              &__column{
+                top: 6px;
+                height: 40px;
+              }
+            }
+          }
+        }
+      }
+      & .container-slot{
+        height: 295px;
+        filter: drop-shadow(1px 10px 5px rgba(99, 99, 99, 0.2));
+      }
+      & .details-pc{
+        width: 100%;
+        margin: 0 auto;
+        height: 40px;
+        border-radius: 8px;
+        & ion-list{
+          border-radius: 8px;
+          & .detail-item{
+            & div{
+              padding-left: unset !important;
+            }
+          }
+        }
+        & .grid-detail{
+          width: 90%;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin: 0 auto;
+        }
+      }
+    }
+  }
 }
 
