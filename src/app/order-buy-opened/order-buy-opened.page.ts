@@ -52,8 +52,10 @@ export class OrderBuyOpenedPage implements OnInit, AfterViewInit  {
   openedOrders: IOpenedBuyOrder[] = [];
   displayedColumns: string[] = ['pc_number', 'cod', 'dt_solicitation', 'dt_delivery', 'buy_order_value', 'supplier', 'description', 'status'];
   dataSource = new MatTableDataSource<IOpenedBuyOrder>();
+  pcNumbersList: string[] = [];
 
   readonly pc_number: any;
+  listPcs: IOpenedBuyOrder[] = [];
 
   private _liveAnnouncer = inject(LiveAnnouncer);
   private originalListData = new MatTableDataSource<IOpenedBuyOrder>();
@@ -91,10 +93,14 @@ export class OrderBuyOpenedPage implements OnInit, AfterViewInit  {
         }
       })
       this.dataSource.data = this.openedOrders;
-    })
+      this.listPcs = this.openedOrders;
+    });
   }
 
   ngAfterViewInit() {
+    setTimeout(() => {
+      this.createSelectList(this.dataSource.data);
+    }, 5000);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
@@ -108,12 +114,14 @@ export class OrderBuyOpenedPage implements OnInit, AfterViewInit  {
   }
 
   filterByPcNumber(pcNumber: number | string) {
+
     let newDataSource: IOpenedBuyOrder[] = [];
     const pcString = this.showMobile ? `PC${pcNumber}` : pcNumber;
     if(pcString){
       this.originalListData.data = this.dataSource.data;
       const source = from(this.dataSource.data);
       const filterSource = source.pipe(filter(oc => oc.pc_number === pcString));
+
       filterSource.subscribe(filter => {
         if (filter) {
           newDataSource.push(filter);
@@ -128,9 +136,35 @@ export class OrderBuyOpenedPage implements OnInit, AfterViewInit  {
   }
 
   onIonInfinite(event: InfiniteScrollCustomEvent) {
-    //this.generateItems();
     setTimeout(() => {
       event.target.complete();
     }, 500);
+  }
+
+  createSelectList(list:IOpenedBuyOrder[]){
+    list?.forEach((item) => {
+      if(!this.pcNumbersList.includes(item.pc_number)){
+        this.pcNumbersList.push(item?.pc_number);
+      }
+    });
+  }
+  handleChange(event: CustomEvent) {
+    this.filterByPcNumberIonic(event.detail.value);
+  }
+
+  filterByPcNumberIonic(pcNumber: string) {
+    let newDataSource: IOpenedBuyOrder[] = [];
+    if(pcNumber){
+      const source = from(this.listPcs);
+      const filterSource = source.pipe(filter(oc => oc.pc_number === pcNumber));
+      filterSource.subscribe(filter => {
+        if (filter) {
+          newDataSource.push(filter);
+        }
+      });
+      this.dataSource.data = newDataSource;
+    }else{
+      this.dataSource.data = this.listPcs;
+    }
   }
 }

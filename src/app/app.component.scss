@@ -11,3 +11,60 @@
 app-header{
   z-index: 102;
 }
+
+.daruix-header-ion-container{
+  &__toolbar{
+    &__wrapper{
+      height: 100px;
+      display: inline-grid;
+      grid-template-columns: [first] 70px [line2] 15px [last] 350px;
+      padding: 10px 8px 12px;
+      &__home-user-top{
+        display: flex;
+        & ion-title{
+          color: var(--drx-red-base);
+        }
+      }
+      &__logo{
+        width: 64px;
+        height: 80px;
+        & img{
+          object-fit: cover;
+        }
+      }
+    }
+  }
+}
+
+.daruix-footer-ion-container{
+  &__toolbar{
+    &__wrapper{
+      height: 60px;
+      display: inline-grid;
+      grid-template-columns: [first] 350px [line2] 15px [last] 70px;
+      padding: 16px 8px 12px;
+      &__home-user-top{
+        display: flex;
+      }
+      &__logo{
+        width: 32px;
+        height: 40px;
+        & img{
+          object-fit: cover;
+        }
+      }
+    }
+  }
+}
+
+.app-splash {
+  position: absolute;
+  z-index: 9999;
+  background: linear-gradient(to bottom, #fff, #eee);
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

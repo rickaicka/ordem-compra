@@ -107,6 +107,7 @@ $status-order-text: (
   }
 }
 
+
 $i: 1;
 @each $status, $color in $status-order{
 

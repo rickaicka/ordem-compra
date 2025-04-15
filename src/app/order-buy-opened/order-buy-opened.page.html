@@ -66,6 +66,22 @@
 </ng-container>
 
 <ng-container *ngIf="showMobile">
+  <ion-list class="daruix-search-container">
+    <ion-item lines="full" class="daruix-search-container__item">
+      <ion-select
+        interface="modal"
+        id="selectWrapper"
+        label="Selecione o PC"
+        label-placement="stacked"
+        class="daruix-search-container__item__select quicksand-sm bold"
+        (ionChange)="handleChange($event)">
+        <ion-select-option [value]="''" class="daruix-search-container__item__select__option">Selecione o PC</ion-select-option>
+        <ng-container *ngFor="let item of pcNumbersList;">
+          <ion-select-option [value]="item" class="daruix-search-container__item__select__option">{{ item }}</ion-select-option>
+        </ng-container>
+      </ion-select>
+    </ion-item>
+  </ion-list>
   <ion-content class="ion-padding">
     <ion-list [class]="'container'">
       <ion-accordion-group [class]="'daruix-accordion'">
@@ -76,8 +92,8 @@
                 <ion-grid [class]="'daruix-grid-container'">
                   <ion-row>
                     <ion-col size="4">
-                      <span class="quicksand-sm bold">PC:</span><br/>
-                      <span class="quicksand-m bolder">{{item?.pc_number | pcNumberSplit}}</span>
+                      <span class="quicksand-sm bold">OC N°:</span><br/>
+                      <span class="quicksand-m bolder">{{item?.cod}}</span>
                     </ion-col>
                     <ion-col size="2"></ion-col>
                     <ion-col size="6" [class]="'daruix-grid-container__column'">
@@ -86,10 +102,6 @@
                   </ion-row>
                 </ion-grid>
               </ion-card-header>
-
-<!--              <ion-card-content>-->
-<!--                Here's a small text description for the card content. Nothing more, nothing less.-->
-<!--              </ion-card-content>-->
             </ion-card>
           </ion-item>
           <div class="ion-padding container-slot" slot="content">
@@ -97,31 +109,31 @@
               <ion-list>
                 <ion-item lines="full" class="detail-item">
                   <p class="grid-detail">
-                    <span class="quicksand-sm bold">OC N°</span>
-                    <span class="quicksand-m">{{item?.cod}}</span>
+                    <span class="quicksand-sm bold">PC:</span>
+                    <span class="quicksand-m">{{item?.pc_number | pcNumberSplit}}</span>
                   </p>
                 </ion-item>
                 <ion-item lines="full" class="detail-item">
                   <p class="grid-detail">
-                    <span class="quicksand-sm bold">OC VALOR</span>
+                    <span class="quicksand-sm bold">OC VALOR:</span>
                     <span class="quicksand-m">{{item?.buy_order_value}}</span>
                   </p>
                 </ion-item>
                 <ion-item lines="full" class="detail-item">
                   <p class="grid-detail">
-                    <span class="quicksand-sm bold">DATA DA COMPRA</span>
+                    <span class="quicksand-sm bold">DATA DA COMPRA:</span>
                     <span class="quicksand-m">{{item?.dt_solicitation}}</span>
                   </p>
                 </ion-item>
                 <ion-item lines="full" class="detail-item">
                   <p class="grid-detail">
-                    <span class="quicksand-sm bold">DATA DE ENTREGA</span>
+                    <span class="quicksand-sm bold">DATA DE ENTREGA:</span>
                     <span class="quicksand-m">{{item?.dt_delivery}}</span>
                   </p>
                 </ion-item>
                 <ion-item lines="full" class="detail-item">
                   <p class="grid-detail">
-                    <span class="quicksand-sm bold">FORNECEDOR</span>
+                    <span class="quicksand-sm bold">FORNECEDOR:</span>
                     <span class="quicksand-m">{{item?.supplier | formatString:20}}</span>
                   </p>
                 </ion-item>

@@ -26,10 +26,10 @@
   }
 }
 
-
 .bold{
   font-weight: bold!important;
 }
+
 .bolder{
   font-weight: bolder!important;
 }
@@ -56,11 +56,21 @@
   color: var(--ex-neutral-scale-300)!important;
 }
 
+
+//APP
+.daruix-search-container{
+  margin-top: 100px;
+  height: 65px;
+  &__item{
+    &__select{
+      &__option{
+
+      }
+    }
+  }
+}
 ion-content {
   --background: var(--drx-gray-base);
-  & .container{
-    margin-top: 90px!important;
-  }
   & .daruix-accordion{
     &__item{
       &__header{

@@ -3,11 +3,39 @@
     <app-header></app-header>
   </ng-container>
   <ng-container *ngIf="isNative">
-    <ion-header>
-      <ion-toolbar>
-        <ion-title> Header </ion-title>
-      </ion-toolbar>
-    </ion-header>
+
+    <div *ngIf="showAppSplash" class="app-splash">
+      <img src="../assets/imgs/daruix_logo.png" />
+      <p class="quicksand-m bold">Carregando app...</p>
+    </div>
+    <ng-container *ngIf="!showAppSplash">
+      <ion-header [ngClass]="'daruix-header-ion-container'">
+        <ion-toolbar [ngClass]="'daruix-header-ion-container__toolbar'">
+          <div [ngClass]="'daruix-header-ion-container__toolbar__wrapper'">
+            <div [ngClass]="'daruix-header-ion-container__toolbar__wrapper__logo'">
+              <img src="../assets/imgs/daruix_logo.png" alt="Logo Daruix"/>
+            </div>
+            <div></div>
+            <div [ngClass]="'daruix-header-ion-container__toolbar__wrapper__home-user-top'">
+              <ion-title [ngClass]="'quicksand-r bold'">Ordens de Compra em Aberto</ion-title>
+            </div>
+          </div>
+        </ion-toolbar>
+      </ion-header>
+      <ion-footer [ngClass]="'daruix-footer-ion-container'">
+        <ion-toolbar [ngClass]="'daruix-footer-ion-container__toolbar'">
+          <div [ngClass]="'daruix-footer-ion-container__toolbar__wrapper'">
+            <div [ngClass]="'daruix-footer-ion-container__toolbar__wrapper__home-user-top'">
+              <ion-title [ngClass]="'quicksand-sm bold'">Desenvolvido por:</ion-title>
+            </div>
+            <div></div>
+            <div [ngClass]="'daruix-footer-ion-container__toolbar__wrapper__logo'">
+              <img src="../assets/imgs/daruix_logo.png" alt="Logo Daruix"/>
+            </div>
+          </div>
+        </ion-toolbar>
+      </ion-footer>
+    </ng-container>
   </ng-container>
   <main [ngClass]="isNative ? '' : 'daruix-ordem-container'">
     <ion-router-outlet></ion-router-outlet>

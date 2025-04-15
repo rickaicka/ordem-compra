@@ -13,6 +13,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "sync": "npx cap sync",
+    "resources": "cordova-res && npx cap sync",
     "run:android": "npm run build:mobile && npx cap run android"
   },
   "private": true,
@@ -34,7 +35,8 @@
     "@capacitor/haptics": "7.0.0",
     "@capacitor/ios": "7.2.0",
     "@capacitor/keyboard": "7.0.0",
-    "@capacitor/status-bar": "7.0.0",
+    "@capacitor/splash-screen": "^7.0.1",
+    "@capacitor/status-bar": "^7.0.0",
     "@ionic/angular": "^8.0.0",
     "ionicons": "^7.0.0",
     "rxjs": "~7.8.0",

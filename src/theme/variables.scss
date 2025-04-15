@@ -1,14 +1,13 @@
 // For information on how to create your own theme, please see:
 // http://ionicframework.com/docs/theming/
 
-
+@use "base/mixins" as *;
 body{
   background-color: var(--drx-gray-base);
 }
 
 .ion-page{
   overflow: auto!important;
-  padding-bottom: 32px;
 }
 
 
@@ -31,4 +30,31 @@ body{
 }
 .mat-mdc-form-field-bottom-align{
   display:none;
+}
+
+ion-header,
+ion-toolbar {
+  padding-top: env(safe-area-inset-top);
+  box-sizing: border-box;
+}
+ion-content {
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+//.select-wrapper{
+//  @include createFont('s');
+//}
+
+ion-select::part(label){
+  font-family: "Quicksand", serif !important;
+  font-optical-sizing: auto !important;
+  font-weight: 500 !important;
+  font-size: 15+px !important;
+}
+
+ion-select::part(text){
+  font-family: "Quicksand", serif !important;
+  font-optical-sizing: auto !important;
+  font-weight: 700 !important;
+  font-size: 17+px !important;
 }

@@ -33,3 +33,18 @@
 @function get-color($color){
   @return $color;
 }
+
+@mixin createFont($name){
+
+  .quicksand-#{$name}{
+    font-family: "Quicksand", serif !important;
+    font-optical-sizing: auto !important;
+    font-weight: 500 !important;
+    font-size: 12+px !important;
+    //@each $nameFor, $size in $sizes{
+    //  @if $name == $nameFor{
+    //    font-size: $size+px !important;
+    //  }
+    //}
+  }
+}
