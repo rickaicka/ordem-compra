@@ -67,4 +67,8 @@ app-header{
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  & p{
+    margin-top: 16px;
+    color: var(--drx-red-base);
+  }
 }

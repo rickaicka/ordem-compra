@@ -122,3 +122,7 @@ ion-content {
   }
 }
 
+.refresher-pulling-text, .refresher-refreshing-icon{
+  color: var(--drx-red-base);
+  font-weight: bolder!important;
+}

@@ -53,8 +53,8 @@ export class OrderBuyOpenedPage implements OnInit, AfterViewInit  {
   displayedColumns: string[] = ['pc_number', 'cod', 'dt_solicitation', 'dt_delivery', 'buy_order_value', 'supplier', 'description', 'status'];
   dataSource = new MatTableDataSource<IOpenedBuyOrder>();
   pcNumbersList: string[] = [];
-
-  readonly pc_number: any;
+  selectedPC = ''
+  pc_number: any;
   listPcs: IOpenedBuyOrder[] = [];
 
   private _liveAnnouncer = inject(LiveAnnouncer);
@@ -64,11 +64,23 @@ export class OrderBuyOpenedPage implements OnInit, AfterViewInit  {
       this.showMobile = isNative;
     });
     this.pc_number = new FormControl((this.showMobile ? null : ''),(this.showMobile ? [CustomValidators.isNumber()] : undefined));
-
   }
 
   ngOnInit() {
     let enumKeys = '';
+    this.getOpenedBuyOrders(enumKeys);
+  }
+
+  ngAfterViewInit() {
+    setTimeout(() => {
+      this.createSelectList(this.dataSource.data);
+    }, 5000);
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
+
+  getOpenedBuyOrders(enumKeys:any){
+
     this.openedBuyOrders.getOpenedBuyOrders().subscribe((response: ApiResponse<IOpenedBuyOrder[]>) => {
       this.openedOrders = response.data;
       this.openedOrders.forEach(order => {
@@ -95,14 +107,6 @@ export class OrderBuyOpenedPage implements OnInit, AfterViewInit  {
       this.dataSource.data = this.openedOrders;
       this.listPcs = this.openedOrders;
     });
-  }
-
-  ngAfterViewInit() {
-    setTimeout(() => {
-      this.createSelectList(this.dataSource.data);
-    }, 5000);
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
   }
 
   announceSortChange(sortState: Sort) {
@@ -166,5 +170,14 @@ export class OrderBuyOpenedPage implements OnInit, AfterViewInit  {
     }else{
       this.dataSource.data = this.listPcs;
     }
+  }
+
+  handleRefresh(event: CustomEvent) {
+    setTimeout(() => {
+      this.selectedPC = '';
+      this.getOpenedBuyOrders('');
+      this.filterByPcNumberIonic('');
+      (event.target as HTMLIonRefresherElement).complete();
+    }, 2000);
   }
 }

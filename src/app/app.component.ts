@@ -11,7 +11,7 @@ import { SplashScreen } from '@capacitor/splash-screen';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [IonicModule, RouterModule, NgIf, HeaderComponent, NgClass, NgOptimizedImage],
+  imports: [IonicModule, RouterModule, NgIf, HeaderComponent, NgClass],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
@@ -22,10 +22,12 @@ export class AppComponent implements OnInit{
 
   constructor(private router: Router, private subjectService: OpenedBuyOrderService) {
 
-    StatusBar.setStyle({ style: Style.Light }); // ou .Dark
-    StatusBar.setOverlaysWebView({ overlay: false });
+    if(this.isNative){
+      StatusBar.setStyle({ style: Style.Light }); // ou .Dark
+      StatusBar.setOverlaysWebView({ overlay: false });
 
-    SplashScreen.hide();
+      SplashScreen.hide();
+    }
   }
 
   ngOnInit() {
@@ -33,6 +35,5 @@ export class AppComponent implements OnInit{
       this.showAppSplash = false;
     }, 4000);
     this.router.navigate(['']).then(r => this.subjectService.subjectIsNative.next(this.isNative));
-
   }
 }

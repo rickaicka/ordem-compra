@@ -74,6 +74,7 @@
         label="Selecione o PC"
         label-placement="stacked"
         class="daruix-search-container__item__select quicksand-sm bold"
+        [(ngModel)]="selectedPC"
         (ionChange)="handleChange($event)">
         <ion-select-option [value]="''" class="daruix-search-container__item__select__option">Selecione o PC</ion-select-option>
         <ng-container *ngFor="let item of pcNumbersList;">
@@ -83,6 +84,14 @@
     </ion-item>
   </ion-list>
   <ion-content class="ion-padding">
+    <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+      <ion-refresher-content
+        pullingText="Arraste para atualizar"
+        refreshingSpinner="circles"
+        refreshingText="Atualizando..."
+      >
+      </ion-refresher-content>
+    </ion-refresher>
     <ion-list [class]="'container'">
       <ion-accordion-group [class]="'daruix-accordion'">
         <ion-accordion value="{{i}}" *ngFor="let item of dataSource.data; index as i;" [class]="'daruix-accordion__item'">
