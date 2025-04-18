@@ -66,7 +66,7 @@
 </ng-container>
 
 <ng-container *ngIf="showMobile">
-  <ion-list class="daruix-search-container">
+  <ion-list class="daruix-search-container" *ngIf="!showStatusBar">
     <ion-item lines="full" class="daruix-search-container__item">
       <ion-select
         interface="modal"
@@ -84,7 +84,8 @@
     </ion-item>
   </ion-list>
   <ion-content class="ion-padding">
-    <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-progress-bar [buffer]="buffer" [value]="progress" *ngIf="showStatusBar"></ion-progress-bar>
+    <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)" *ngIf="!showStatusBar">
       <ion-refresher-content
         pullingText="Arraste para atualizar"
         refreshingSpinner="circles"
@@ -92,7 +93,7 @@
       >
       </ion-refresher-content>
     </ion-refresher>
-    <ion-list [class]="'container'">
+    <ion-list [class]="'container'" *ngIf="!showStatusBar">
       <ion-accordion-group [class]="'daruix-accordion'">
         <ion-accordion value="{{i}}" *ngFor="let item of dataSource.data; index as i;" [class]="'daruix-accordion__item'">
           <ion-item slot="header" [class]="'daruix-accordion__item__header'">
@@ -152,7 +153,7 @@
         </ion-accordion>
       </ion-accordion-group>
     </ion-list>
-    <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
+    <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)" *ngIf="!showStatusBar">
       <ion-infinite-scroll-content></ion-infinite-scroll-content>
     </ion-infinite-scroll>
   </ion-content>

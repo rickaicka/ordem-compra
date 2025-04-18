@@ -1,7 +1,7 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'io.ionic.starter',
+  appId: 'br.com.daruix.sgo-ordens-compra',
   appName: 'Ordens de Compra',
   webDir: 'www',
   plugins: {

@@ -56,6 +56,9 @@ export class OrderBuyOpenedPage implements OnInit, AfterViewInit  {
   selectedPC = ''
   pc_number: any;
   listPcs: IOpenedBuyOrder[] = [];
+  showStatusBar: boolean = false;
+  public buffer = 0.06;
+  public progress = 0;
 
   private _liveAnnouncer = inject(LiveAnnouncer);
   private originalListData = new MatTableDataSource<IOpenedBuyOrder>();
@@ -68,7 +71,18 @@ export class OrderBuyOpenedPage implements OnInit, AfterViewInit  {
 
   ngOnInit() {
     let enumKeys = '';
-    this.getOpenedBuyOrders(enumKeys);
+
+    if(this.showMobile){
+      setInterval(() => {
+        this.buffer += 0.06;
+        this.progress += 0.06;
+        this.showStatusBar = true;
+        this.getOpenedBuyOrders(enumKeys);
+      }, 1500);
+    }else{
+
+      this.getOpenedBuyOrders(enumKeys);
+    }
   }
 
   ngAfterViewInit() {
@@ -81,34 +95,46 @@ export class OrderBuyOpenedPage implements OnInit, AfterViewInit  {
 
   getOpenedBuyOrders(enumKeys:any){
 
-    this.openedBuyOrders.getOpenedBuyOrders().subscribe((response: ApiResponse<IOpenedBuyOrder[]>) => {
-      this.openedOrders = response.data;
-      this.openedOrders.forEach(order => {
-        switch (order.status) {
-          case "0":
-            enumKeys = Object.keys(StatusOc)[0].toLowerCase();
-            order.status = StatusOc.OPENED;
-            order['classStatus'] = `status-${enumKeys}`
-            break
-          case "1":
-            enumKeys = Object.keys(StatusOc)[1].toLowerCase();
-            order.status = StatusOc.UNDELIVERED;
-            order['classStatus'] = `status-${enumKeys}`
-            break;
-          case "2":
-            enumKeys = Object.keys(StatusOc)[2].toLowerCase();
-            order.status = StatusOc.DELIVERED;
-            order['classStatus'] = `status-${enumKeys}`
-            break;
-          default:
-            break;
-        }
-      })
-      this.dataSource.data = this.openedOrders;
-      this.listPcs = this.openedOrders;
-    });
+    this.openedBuyOrders.getOpenedBuyOrders().subscribe(
+      (response: ApiResponse<IOpenedBuyOrder[]>) => {
+        this.openedOrders = response.data;
+        this.openedOrders.forEach(order => {
+          this.formatStatus(order);
+        })
+        this.dataSource.data = this.openedOrders;
+        this.listPcs = this.openedOrders;
+      },
+      (err) => {
+        console.log(err);
+      },
+      () => {
+        this.showStatusBar = false;
+      }
+    );
   }
-
+  formatStatus(order:IOpenedBuyOrder){
+    order.status = order.status.split(";")[0];
+    let enumKeys = '';
+    switch (order.status ) {
+      case "0":
+        enumKeys = Object.keys(StatusOc)[0].toLowerCase();
+        order.status  = StatusOc.OPENED;
+        order['classStatus'] = `status-${enumKeys}`
+        break
+      case "1":
+        enumKeys = Object.keys(StatusOc)[1].toLowerCase();
+        order.status = StatusOc.UNDELIVERED;
+        order['classStatus'] = `status-${enumKeys}`
+        break;
+      case "2":
+        enumKeys = Object.keys(StatusOc)[2].toLowerCase();
+        order.status = StatusOc.DELIVERED;
+        order['classStatus'] = `status-${enumKeys}`
+        break;
+      default:
+        break;
+    }
+  }
   announceSortChange(sortState: Sort) {
     if (sortState.direction) {
       this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
@@ -152,6 +178,7 @@ export class OrderBuyOpenedPage implements OnInit, AfterViewInit  {
       }
     });
   }
+
   handleChange(event: CustomEvent) {
     this.filterByPcNumberIonic(event.detail.value);
   }
