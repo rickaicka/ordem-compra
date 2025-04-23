@@ -76,7 +76,7 @@
               "baseHref": "/"
             },
             "production-web": {
-              "outputPath": "dist/web",
+              "outputPath": "dist/",
               "budgets": [
                 {
                   "type": "initial",

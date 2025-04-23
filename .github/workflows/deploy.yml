@@ -35,6 +35,6 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           port: ${{ secrets.FTP_PORT }}
           protocol: ftp
-          local-dir: ./dist/web/
+          local-dir: ./dist/
           server-dir: web/ordem-compra/
           delete: true   # ⚠️ limpa o conteúdo da pasta remota antes de subir os arquivos
