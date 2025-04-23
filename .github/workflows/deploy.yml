@@ -27,7 +27,7 @@ jobs:
       - name: Build do Angular
         run: npm run build:web
 
-      - name: Clean remote directory
+      - name: Upload via FTP (limpa antes)
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
           server: ${{ secrets.FTP_HOST }}
@@ -35,16 +35,6 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           port: ${{ secrets.FTP_PORT }}
           protocol: ftp
-          command: |
-            rm -rf ./web/ordem-compra/*  # Comando para limpar os arquivos antigos no diretório remoto
-
-      - name: Upload via FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
-        with:
-          server: ${{ secrets.FTP_HOST }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          port: ${{ secrets.FTP_PORT }}
-          protocol: ftp
-          local-dir: ./dist/web/ # ajuste aqui conforme seu projeto Angular
-          server-dir: ./web/ordem-compra/
+          local-dir: ./dist/web/
+          server-dir: /web/ordem-compra/
+          delete: true   # ⚠️ limpa o conteúdo da pasta remota antes de subir os arquivos
