@@ -21,6 +21,9 @@ jobs:
       - name: Instalar dependências
         run: npm install
 
+      - name: Instalar Ionic CLI
+        run: npm install -g @ionic/cli
+
       - name: Build do Angular
         run: npm run build:web
 
@@ -32,4 +35,4 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           port: ${{ secrets.FTP_PORT }}
           protocol: ftp
-          local-dir: ./dist/ordem-compra/ # ajuste aqui conforme seu projeto Angular
+          local-dir: ./dist/web/ # ajuste aqui conforme seu projeto Angular
