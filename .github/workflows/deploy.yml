@@ -28,15 +28,9 @@ jobs:
         run: npm run build:web
 
       - name: Clean remote directory
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
-        with:
-          server: ${{ secrets.FTP_HOST }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          port: ${{ secrets.FTP_PORT }}
-          protocol: ftp
-          command: |
-            rm -rf /web/ordem-compra/*  # Comando para remover todos os arquivos no diretório remoto
+        run: |
+          sudo apt-get install lftp  # Instala lftp
+          lftp -e "mirror --delete --reverse ./dist/web/ /web/ordem-compra/; quit" -u ${{ secrets.FTP_USERNAME }},${{ secrets.FTP_PASSWORD }} ${{ secrets.FTP_HOST }}
 
       - name: Upload via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
