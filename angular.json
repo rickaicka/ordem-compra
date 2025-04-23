@@ -96,7 +96,7 @@
                 }
               ],
               "outputHashing": "all",
-              "baseHref": "/ordem-compra/"
+              "baseHref": "/"
             },
             "development": {
               "optimization": false,
