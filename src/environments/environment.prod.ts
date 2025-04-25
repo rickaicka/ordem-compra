@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  API_URL: 'https://bff-flask-daruix.onrender.com'
+  API_URL: 'https://api.daruix-engenharia.vps-kinghost.net'
 };

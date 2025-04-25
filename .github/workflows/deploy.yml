@@ -3,7 +3,7 @@ name: Deploy Angular via FTP
 on:
   push:
     branches:
-      - deploy # ou a branch que você usa para deploy
+      - main # ou a branch que você usa para deploy
 
 jobs:
   deploy:
