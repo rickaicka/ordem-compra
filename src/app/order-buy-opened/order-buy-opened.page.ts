@@ -18,6 +18,9 @@ import {MatButtonModule} from "@angular/material/button";
 import {CustomValidators} from "../shared/validators/custom-validators";
 import {NgForOf, NgIf} from "@angular/common";
 import {PcNumberSplitPipe} from "../shared/pipes/pc-number-split.pipe";
+import {MatProgressBarModule} from "@angular/material/progress-bar";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {ProgressCircleService} from "../services/progress-circle.service";
 
 @Component({
   selector: 'app-order-buy-opened',
@@ -38,7 +41,7 @@ import {PcNumberSplitPipe} from "../shared/pipes/pc-number-split.pipe";
     MatButtonModule,
     NgIf,
     NgForOf,
-
+    MatProgressBarModule,
   ],
   standalone: true
 })
@@ -60,6 +63,9 @@ export class OrderBuyOpenedPage implements OnInit, AfterViewInit  {
   public buffer = 0.06;
   public progress = 0;
 
+  loaderService = inject(ProgressCircleService);
+  showTable :any;
+
   private _liveAnnouncer = inject(LiveAnnouncer);
   private originalListData = new MatTableDataSource<IOpenedBuyOrder>();
   constructor() {
@@ -76,11 +82,9 @@ export class OrderBuyOpenedPage implements OnInit, AfterViewInit  {
       setInterval(() => {
         this.buffer += 0.06;
         this.progress += 0.06;
-        this.showStatusBar = true;
         this.getOpenedBuyOrders(enumKeys);
       }, 1500);
     }else{
-
       this.getOpenedBuyOrders(enumKeys);
     }
   }
@@ -94,9 +98,10 @@ export class OrderBuyOpenedPage implements OnInit, AfterViewInit  {
   }
 
   getOpenedBuyOrders(enumKeys:any){
-
     this.openedBuyOrders.getOpenedBuyOrders().subscribe(
       (response: ApiResponse<IOpenedBuyOrder[]>) => {
+
+        this.loaderService.showLoader$.next(true);
         this.openedOrders = response.data;
         this.openedOrders.forEach(order => {
           this.formatStatus(order);
@@ -108,7 +113,12 @@ export class OrderBuyOpenedPage implements OnInit, AfterViewInit  {
         console.log(err);
       },
       () => {
-        this.showStatusBar = false;
+        if(this.listPcs.length > 0){
+          this.loaderService.showLoader$.next(false);
+          this.showTable = true;
+        }else{
+          this.showTable = false;
+        }
       }
     );
   }

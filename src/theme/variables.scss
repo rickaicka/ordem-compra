@@ -58,3 +58,8 @@ ion-select::part(text){
   font-weight: 700 !important;
   font-size: 17+px !important;
 }
+
+
+.mat-mdc-progress-spinner .mdc-circular-progress__determinate-circle, .mat-mdc-progress-spinner .mdc-circular-progress__indeterminate-circle-graphic{
+  stroke: var(--drx-red-base) !important;
+}

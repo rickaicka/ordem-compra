@@ -7,11 +7,13 @@ import {NgClass, NgIf, NgOptimizedImage} from "@angular/common";
 import {HeaderComponent} from "./shared/header/header.component";
 import { StatusBar, Style } from '@capacitor/status-bar';
 import { SplashScreen } from '@capacitor/splash-screen';
+import {ProgressCircleComponent} from "./shared/progress-circle/progress-circle.component";
+import {ProgressCircleService} from "./services/progress-circle.service";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [IonicModule, RouterModule, NgIf, HeaderComponent, NgClass],
+  imports: [IonicModule, RouterModule, NgIf, HeaderComponent, NgClass, ProgressCircleComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
@@ -20,7 +22,13 @@ export class AppComponent implements OnInit{
   isNative = Capacitor.isNativePlatform();
   showAppSplash = true;
 
-  constructor(private router: Router, private subjectService: OpenedBuyOrderService) {
+  showLoaderBar = true;
+
+  constructor(private router: Router, private subjectService: OpenedBuyOrderService, private progressCircleService: ProgressCircleService) {
+
+    this.progressCircleService.showLoader$.subscribe(show =>{
+      this.showLoaderBar = show;
+    })
 
     if(this.isNative){
       StatusBar.setStyle({ style: Style.Light }); // ou .Dark
