@@ -23,6 +23,12 @@
     & mat-icon{
       color: var(--ex-purple-scale-400)
     }
+    & .form-pc{
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      justify-content: flex-start;
+    }
   }
 }
 

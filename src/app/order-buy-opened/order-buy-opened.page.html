@@ -2,12 +2,14 @@
   <section class="daruix-ordem-list-orders">
     <ng-container *ngIf="showTable">
       <div class="table-container__filter-pc">
-        <mat-form-field appearance="outline">
-          <mat-label>Filtre por PC</mat-label>
-          <input matInput [formControl]="pc_number" type="{{showMobile ? 'number' : 'text'}}" placeholder="Número do PC">
-          <mat-icon matSuffix>search</mat-icon>
-        </mat-form-field>
-        <button mat-button (click)="filterByPcNumber(pc_number.getRawValue())" class="btn-form quicksand-m">Filtrar</button>
+        <form class="form-pc" [formGroup]="formPC">
+          <mat-form-field appearance="outline">
+            <mat-label>Filtre por PC</mat-label>
+            <input matInput formControlName="pc_number" type="{{showMobile ? 'number' : 'text'}}" placeholder="Número do PC">
+            <mat-icon matSuffix>search</mat-icon>
+          </mat-form-field>
+          <button mat-button (click)="filterByPcNumber()" class="btn-form quicksand-m">Filtrar</button>
+        </form>
       </div>
       <div class="table-container">
         <table mat-table [dataSource]="dataSource"  class="mat-elevation-z8" matSort (matSortChange)="announceSortChange($event)">

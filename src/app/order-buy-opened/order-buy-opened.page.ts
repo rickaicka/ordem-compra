@@ -42,6 +42,7 @@ import {ProgressCircleService} from "../services/progress-circle.service";
     NgIf,
     NgForOf,
     MatProgressBarModule,
+
   ],
   standalone: true
 })
@@ -58,11 +59,15 @@ export class OrderBuyOpenedPage implements OnInit, AfterViewInit  {
   dataSource = new MatTableDataSource<IOpenedBuyOrder>();
   pcNumbersList: string[] = [];
   selectedPC = ''
-  pc_number: any;
   listPcs: IOpenedBuyOrder[] = [];
   showStatusBar: boolean = false;
   public buffer = 0.06;
   public progress = 0;
+
+  formPC = new FormGroup({
+    pc_number: new FormControl((this.showMobile ? null : ''),(this.showMobile ? [CustomValidators.isNumber()] : undefined)),
+  })
+
 
   loaderService = inject(ProgressCircleService);
   showTable :any;
@@ -73,12 +78,6 @@ export class OrderBuyOpenedPage implements OnInit, AfterViewInit  {
     this.openedBuyOrders.subjectIsNative.subscribe(isNative => {
       this.showMobile = isNative;
     });
-    this.pc_number = new FormControl((this.showMobile ? null : ''),(this.showMobile ? [CustomValidators.isNumber()] : undefined));
-
-
-    setTimeout(() => {
-      this.filterByPcNumber('')
-    },300)
   }
 
   ngOnInit() {
@@ -96,7 +95,6 @@ export class OrderBuyOpenedPage implements OnInit, AfterViewInit  {
   }
 
   ngAfterViewInit() {
-
     this.dataSourceSubject.subscribe(data => {
       this.configureDataSource(data);
     });
@@ -120,6 +118,7 @@ export class OrderBuyOpenedPage implements OnInit, AfterViewInit  {
         this.dataSourceSubject.next(this.openedOrders);
         this.listPcs = this.openedOrders;
         this.originalListData.data = this.dataSource.data;
+
       },
       (err) => {
         console.log(err);
@@ -131,6 +130,7 @@ export class OrderBuyOpenedPage implements OnInit, AfterViewInit  {
         }else{
           this.showTable = false;
         }
+        this.filterByPcNumber();
       }
     );
   }
@@ -171,10 +171,11 @@ export class OrderBuyOpenedPage implements OnInit, AfterViewInit  {
     } else {
       this._liveAnnouncer.announce('Sorting cleared');
     }
+    this.filterByPcNumber();
   }
 
-  filterByPcNumber(pcNumber: number | string) {
-
+  filterByPcNumber() {
+    let pcNumber = this.formPC.get('pc_number')?.getRawValue();
     let newDataSource: IOpenedBuyOrder[] = [];
     const pcString = this.showMobile ? `PC${pcNumber}` : pcNumber;
     if(pcString){
