@@ -13,7 +13,7 @@ import {MatFormField, MatHint, MatInputModule, MatLabel} from "@angular/material
 import {MatIcon} from "@angular/material/icon";
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {MatFormFieldModule} from "@angular/material/form-field";
-import {filter, from} from "rxjs";
+import {BehaviorSubject, filter, from} from "rxjs";
 import {MatButtonModule} from "@angular/material/button";
 import {CustomValidators} from "../shared/validators/custom-validators";
 import {NgForOf, NgIf} from "@angular/common";
@@ -54,6 +54,7 @@ export class OrderBuyOpenedPage implements OnInit, AfterViewInit  {
   showMobile: boolean = false;
   openedOrders: IOpenedBuyOrder[] = [];
   displayedColumns: string[] = ['pc_number', 'cod', 'dt_solicitation', 'dt_delivery', 'buy_order_value', 'supplier', 'description', 'status'];
+  dataSourceSubject = new BehaviorSubject<IOpenedBuyOrder[]>([]);
   dataSource = new MatTableDataSource<IOpenedBuyOrder>();
   pcNumbersList: string[] = [];
   selectedPC = ''
@@ -90,11 +91,18 @@ export class OrderBuyOpenedPage implements OnInit, AfterViewInit  {
   }
 
   ngAfterViewInit() {
+
+    this.dataSourceSubject.subscribe(data => {
+      this.configureDataSource(data);
+    });
+
     setTimeout(() => {
       this.createSelectList(this.dataSource.data);
     }, 5000);
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+
+    setTimeout(() => {
+      this.filterByPcNumber('')
+    },1000)
   }
 
   getOpenedBuyOrders(enumKeys:any){
@@ -103,11 +111,14 @@ export class OrderBuyOpenedPage implements OnInit, AfterViewInit  {
 
         this.loaderService.showLoader$.next(true);
         this.openedOrders = response.data;
+
         this.openedOrders.forEach(order => {
           this.formatStatus(order);
         })
-        this.dataSource.data = this.openedOrders;
+
+        this.dataSourceSubject.next(this.openedOrders);
         this.listPcs = this.openedOrders;
+        this.originalListData.data = this.dataSource.data;
       },
       (err) => {
         console.log(err);
@@ -122,6 +133,13 @@ export class OrderBuyOpenedPage implements OnInit, AfterViewInit  {
       }
     );
   }
+
+  configureDataSource(data: IOpenedBuyOrder[]) {
+    this.dataSource.data = data;
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
+  }
+
   formatStatus(order:IOpenedBuyOrder){
     order.status = order.status.split(";")[0];
     let enumKeys = '';
@@ -145,6 +163,7 @@ export class OrderBuyOpenedPage implements OnInit, AfterViewInit  {
         break;
     }
   }
+
   announceSortChange(sortState: Sort) {
     if (sortState.direction) {
       this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
@@ -167,11 +186,9 @@ export class OrderBuyOpenedPage implements OnInit, AfterViewInit  {
           newDataSource.push(filter);
         }
       });
-      this.dataSource.data = newDataSource;
-      this.dataSource.paginator = this.paginator;
+      this.configureDataSource(newDataSource)
     }else{
-      this.dataSource.data = this.originalListData.data;
-      this.dataSource.paginator = this.paginator;
+      this.configureDataSource(this.originalListData.data)
     }
   }
 
