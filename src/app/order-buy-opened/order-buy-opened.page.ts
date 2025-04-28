@@ -74,6 +74,11 @@ export class OrderBuyOpenedPage implements OnInit, AfterViewInit  {
       this.showMobile = isNative;
     });
     this.pc_number = new FormControl((this.showMobile ? null : ''),(this.showMobile ? [CustomValidators.isNumber()] : undefined));
+
+
+    setTimeout(() => {
+      this.filterByPcNumber('')
+    },300)
   }
 
   ngOnInit() {
@@ -99,10 +104,6 @@ export class OrderBuyOpenedPage implements OnInit, AfterViewInit  {
     setTimeout(() => {
       this.createSelectList(this.dataSource.data);
     }, 5000);
-
-    setTimeout(() => {
-      this.filterByPcNumber('')
-    },1000)
   }
 
   getOpenedBuyOrders(enumKeys:any){
