@@ -1,5 +1,4 @@
 @use "sass:meta";
-@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap');
 
 :root{
 
@@ -72,6 +71,7 @@
 }
 
 $sizes:(
+  'ss':10,
   'sm':12,
   'm':16,
   'r':18,
@@ -79,6 +79,9 @@ $sizes:(
   'xm':24,
   'xxm':32,
 );
+
+$small-screen: 300px;
+$medium: 900px;
 
 $status-order:(
   'opened': var(--ex-blue-scale-300),
@@ -100,10 +103,10 @@ $status-order-text: (
   }
 
   .quicksand-#{$name}{
-    font-family: "Quicksand", serif !important;
-    font-optical-sizing: auto !important;
-    font-weight: 500 !important;
-    font-size: $size+px !important;
+    font-family: "Quicksand", serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-size: $size+px;
   }
 }
 
@@ -162,3 +165,11 @@ input:focus, textarea:focus, select:focus{
   box-shadow: 0 0 0 0;
   border: 0 none;
 }
+
+$breakpoint-micro: 240px;   // telas minúsculas (smartwatches, celulares antigos)
+$breakpoint-mobile: 480px;  // celulares menores
+$breakpoint-mobile-lg: 768px; // celulares grandes / tablets pequenos
+$breakpoint-tablet: 1024px; // tablets médios
+$breakpoint-desktop: 1280px; // notebooks comuns
+$breakpoint-desktop-lg: 1440px; // monitores grandes
+$breakpoint-ultra: 1920px;  // telas Full HD e maiores

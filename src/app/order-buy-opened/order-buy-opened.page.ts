@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, forwardRef, inject, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, forwardRef, HostListener, inject, OnInit, ViewChild} from '@angular/core';
 import {OpenedBuyOrderService} from "../services/opened-buy-order.service";
 import {InfiniteScrollCustomEvent, IonicModule} from "@ionic/angular";
 import {ApiResponse} from "../interfaces/api-response.interface";
@@ -10,17 +10,18 @@ import {StatusOc} from "../enums/status-oc";
 import {FormatStringPipe} from "../shared/pipes/string-format.pipe";
 import {LiveAnnouncer} from '@angular/cdk/a11y';
 import {MatFormField, MatHint, MatInputModule, MatLabel} from "@angular/material/input";
-import {MatIcon} from "@angular/material/icon";
+import {MatIcon, MatIconModule} from "@angular/material/icon";
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {BehaviorSubject, filter, from} from "rxjs";
 import {MatButtonModule} from "@angular/material/button";
 import {CustomValidators} from "../shared/validators/custom-validators";
-import {NgForOf, NgIf} from "@angular/common";
+import {JsonPipe, NgClass, NgForOf, NgIf} from "@angular/common";
 import {PcNumberSplitPipe} from "../shared/pipes/pc-number-split.pipe";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {ProgressCircleService} from "../services/progress-circle.service";
+import {IsMiniPipe} from "../shared/pipes/is-mini";
 
 @Component({
   selector: 'app-order-buy-opened',
@@ -37,12 +38,13 @@ import {ProgressCircleService} from "../services/progress-circle.service";
     MatInputModule,
     FormsModule,
     ReactiveFormsModule,
-    MatIcon,
     MatButtonModule,
     NgIf,
     NgForOf,
     MatProgressBarModule,
-
+    MatIconModule,
+    IsMiniPipe,
+    NgClass
   ],
   standalone: true
 })
@@ -50,6 +52,20 @@ export class OrderBuyOpenedPage implements OnInit, AfterViewInit  {
 
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  width = window.innerWidth;
+  height = window.innerHeight;
+
+  get screen() {
+    return { width: this.width, height: this.height };
+  }
+  @HostListener('window:resize')
+  onResize() {
+    console.log('Nova resolução:', window.innerWidth, 'x', window.innerHeight);
+    this.width = window.innerWidth;
+    this.height = window.innerHeight;
+  }
+  private readonly minResBase = 360;
+  isMini= false;
 
   openedBuyOrders = inject(OpenedBuyOrderService);
   showMobile: boolean = false;
@@ -58,11 +74,14 @@ export class OrderBuyOpenedPage implements OnInit, AfterViewInit  {
   dataSourceSubject = new BehaviorSubject<IOpenedBuyOrder[]>([]);
   dataSource = new MatTableDataSource<IOpenedBuyOrder>();
   pcNumbersList: string[] = [];
+  dateList: string[] = [];
   selectedPC = ''
+  selectedDate = ''
+  selectedOC: string = ''
   listPcs: IOpenedBuyOrder[] = [];
   showStatusBar: boolean = false;
-  public buffer = 0.06;
-  public progress = 0;
+  typeFilter: string = '';
+  baseDtSource: IOpenedBuyOrder[] = [];
 
   formPC = new FormGroup({
     pc_number: new FormControl((this.showMobile ? null : ''),(this.showMobile ? [CustomValidators.isNumber()] : undefined)),
@@ -82,13 +101,11 @@ export class OrderBuyOpenedPage implements OnInit, AfterViewInit  {
 
   ngOnInit() {
     let enumKeys = '';
-
     if(this.showMobile){
-      setInterval(() => {
-        this.buffer += 0.06;
-        this.progress += 0.06;
+      setInterval(()=>{
         this.getOpenedBuyOrders(enumKeys);
-      }, 1500);
+        this.isMini = this.width <= this.minResBase;
+      },1500)
     }else{
       this.getOpenedBuyOrders(enumKeys);
     }
@@ -98,10 +115,7 @@ export class OrderBuyOpenedPage implements OnInit, AfterViewInit  {
     this.dataSourceSubject.subscribe(data => {
       this.configureDataSource(data);
     });
-
-    setTimeout(() => {
-      this.createSelectList(this.dataSource.data);
-    }, 5000);
+    console.log(this.typeFilter)
   }
 
   getOpenedBuyOrders(enumKeys:any){
@@ -110,6 +124,7 @@ export class OrderBuyOpenedPage implements OnInit, AfterViewInit  {
 
         this.loaderService.showLoader$.next(true);
         this.openedOrders = response.data;
+        this.selectedOC = this.openedOrders[0].cod;
 
         this.openedOrders.forEach(order => {
           this.formatStatus(order);
@@ -139,6 +154,7 @@ export class OrderBuyOpenedPage implements OnInit, AfterViewInit  {
     this.dataSource.data = data;
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
+    this.createSelectList(this.dataSource.data);
   }
 
   formatStatus(order:IOpenedBuyOrder){
@@ -205,11 +221,25 @@ export class OrderBuyOpenedPage implements OnInit, AfterViewInit  {
       if(!this.pcNumbersList.includes(item.pc_number)){
         this.pcNumbersList.push(item?.pc_number);
       }
+      if(!this.dateList.includes(item.dt_delivery)){
+        this.dateList.push(item?.dt_delivery);
+      }
     });
   }
 
   handleChange(event: CustomEvent) {
-    this.filterByPcNumberIonic(event.detail.value);
+    if(this.typeFilter === 'type_date'){
+      this.filterByDateDeliveryIonic(event.detail.value);
+    }else{
+      this.filterByPcNumberIonic(event.detail.value);
+    }
+  }
+  handleChangeType(event:CustomEvent){
+    this.typeFilter = event?.detail.value;
+    this.openedOrders = this.originalListData.data;
+    this.selectedDate = '';
+    this.selectedOC = '';
+    this.selectedPC = '';
   }
 
   filterByPcNumberIonic(pcNumber: string) {
@@ -226,6 +256,26 @@ export class OrderBuyOpenedPage implements OnInit, AfterViewInit  {
     }else{
       this.dataSource.data = this.listPcs;
     }
+
+    this.openedOrders = this.dataSource.data;
+  }
+
+  filterByDateDeliveryIonic(dtDelivery: string) {
+    let newDataSource: IOpenedBuyOrder[] = [];
+    if(dtDelivery){
+      const source = from(this.listPcs);
+      const filterSource = source.pipe(filter(oc => oc.dt_delivery === dtDelivery));
+      filterSource.subscribe(filter => {
+        if (filter) {
+          newDataSource.push(filter);
+        }
+      });
+      this.dataSource.data = newDataSource;
+    }else{
+      this.dataSource.data = this.listPcs;
+    }
+
+    this.openedOrders = this.dataSource.data;
   }
 
   handleRefresh(event: CustomEvent) {
@@ -235,5 +285,13 @@ export class OrderBuyOpenedPage implements OnInit, AfterViewInit  {
       this.filterByPcNumberIonic('');
       (event.target as HTMLIonRefresherElement).complete();
     }, 2000);
+  }
+
+  searchBuyOrder(oc_number: string) {
+    console.log(oc_number);
+  }
+
+  selectedOrder(order: IOpenedBuyOrder) {
+    this.selectedOC = order.cod;
   }
 }

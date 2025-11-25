@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">ordem-compra</string>
-    <string name="title_activity_main">ordem-compra</string>
-    <string name="package_name">io.ionic.starter</string>
-    <string name="custom_url_scheme">io.ionic.starter</string>
+    <string name="app_name">Ordens de Compra</string>
+    <string name="title_activity_main">Ordens de Compra</string>
+    <string name="package_name">br.com.daruix.sgo_ordens_compra</string>
+    <string name="custom_url_scheme">br.com.daruix.sgo_ordens_compra</string>
 </resources>

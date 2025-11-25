@@ -1,4 +1,4 @@
-package io.ionic.starter;
+package br.com.daruix.sgo_ordens_compra;
 
 import com.getcapacitor.BridgeActivity;
 

@@ -1,3 +1,5 @@
+@use "base/mixins" as *;
+
 .daruix-header{
   width: 1300px;
   height: fit-content;
@@ -24,6 +26,7 @@
     border-bottom-left-radius: 40px;
     & .system-name{
       margin: 0 auto;
+      @include createFont('s', 500, 12px);
     }
     & .user-infos{
       width: 250px;

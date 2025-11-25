@@ -65,14 +65,31 @@
 
 //APP
 .daruix-search-container{
-  margin-top: 100px;
-  height: 65px;
+  margin-top: 90px;
+
+  @include media-micro-mobile {
+    margin-top: 80px;
+  }
+  height: 60px;
+  //background: red;
+  filter: drop-shadow(1px 5px 5px rgba(99, 99, 99, 0.2));
+  z-index: 2;
   &__item{
     &__select{
       &__option{
 
       }
     }
+  }
+  &__type-search{
+    &__grid{
+      margin-top: 16px;
+      &__row{
+      }
+    }
+  }
+  &__list{
+    margin: 16px 0 0 !important;
   }
 }
 ion-content {
@@ -91,6 +108,16 @@ ion-content {
               padding-right: 12px;
               margin-left: 6px;
               margin-right: 6px;
+              & .accordion-header{
+                @include media-mini-mobile {
+                  .quicksand-sm{
+                    font-size: 14px !important;
+                  }
+                  .quicksand-m{
+                    font-size: 12px !important;
+                  }
+                }
+              }
               &__column{
                 top: 6px;
                 height: 40px;
@@ -122,7 +149,24 @@ ion-content {
           justify-content: space-between;
           align-items: center;
           margin: 0 auto;
+
+          @include media-mini-mobile {
+            .status-opened--mobile {
+              margin-right: -1px;
+            }
+            .quicksand-m{
+              font-size: 14px !important;
+              &.supplier{
+                font-size: 12px !important;
+              }
+            }
+          }
         }
+      }
+    }
+    &-container{
+      &-list{
+        margin-top: 32px;
       }
     }
   }
@@ -134,3 +178,28 @@ ion-content {
 }
 
 
+
+mat-icon{
+  font-size: 14px !important;
+  width: 30px !important;
+  height: 30px;
+  background: var(--ex-blue-scale-200) !important;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  &:focus{
+    background: var(--drx-red-base)!important;
+  }
+}
+//
+//ion-header, ion-toolbar{
+//  padding-top: unset!important;
+//}
+
+ion-select-modal{
+  & ion-content.sc-ion-select-modal-md{
+    padding-top: 0!important;
+  }
+}

@@ -75,6 +75,50 @@
               "outputHashing": "all",
               "baseHref": "/"
             },
+            "mobile-test": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "4mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "150kb",
+                  "maximumError": "150kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.mobile-test.ts"
+                }
+              ],
+              "outputHashing": "all",
+              "baseHref": "/"
+            },
+            "mobile-emulador": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "4mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "150kb",
+                  "maximumError": "150kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.mobile-emulador.ts"
+                }
+              ],
+              "outputHashing": "all",
+              "baseHref": "/"
+            },
             "production-web": {
               "outputPath": "dist/",
               "budgets": [
@@ -101,9 +145,30 @@
             "development": {
               "optimization": false,
               "extractLicenses": false,
-              "sourceMap": true,
+              "sourceMap": {
+                "scripts": true,
+                "styles": true,
+                "vendor": true
+              },
               "namedChunks": true,
               "baseHref": "/ordem-compra/"
+            },
+            "development-android": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": {
+                "scripts": true,
+                "styles": true,
+                "vendor": true
+              },
+              "namedChunks": true,
+              "baseHref": "/"
             },
             "ci": {
               "progress": false
@@ -119,6 +184,9 @@
             },
             "development": {
               "buildTarget": "app:build:development"
+            },
+            "development-android": {
+              "buildTarget": "app:build:development-android"
             },
             "ci": {
               "progress": false
