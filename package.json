@@ -21,7 +21,8 @@
     "resources": "cordova-res && npx cap sync",
     "run:android": "npm run build:mobile",
     "run:webview": "ionic cap run android  --configuration=production --livereload --external",
-    "android:dev": "ionic cap run android --configuration=development-android --livereload --external"
+    "android:dev": "ionic cap run android --configuration=development-android --livereload --external",
+    "build:android-apk": "ionic build --configuration=production && npx cap copy android && npx cap sync android && npm run fix:gradle-java"
   },
   "private": true,
   "dependencies": {
