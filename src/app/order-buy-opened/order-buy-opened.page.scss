@@ -99,7 +99,7 @@ ion-content {
       &__header{
         &__card{
           width: 100%;
-          height: 60px;
+          height: 150px;
           background-color: var(--ex-neutral-scale-50)!important;
           &__card-header{
             padding: 0!important;
@@ -109,13 +109,9 @@ ion-content {
               margin-left: 6px;
               margin-right: 6px;
               & .accordion-header{
-                @include media-mini-mobile {
-                  .quicksand-sm{
-                    font-size: 14px !important;
-                  }
-                  .quicksand-m{
-                    font-size: 12px !important;
-                  }
+                @media (min-width: 480px) and (max-width: 800px) and (orientation: portrait) {
+                  .quicksand-sm { font-size: 10px !important; }
+                  .quicksand-m  { font-size: 12px !important; }
                 }
               }
               &__column{
@@ -127,14 +123,27 @@ ion-content {
         }
       }
       & .container-slot{
-        height: 295px;
+        width: 92%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         filter: drop-shadow(1px 10px 5px rgba(99, 99, 99, 0.2));
       }
       & .details-pc{
         width: 100%;
         margin: 0 auto;
-        height: 40px;
         border-radius: 8px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        & .details-pc-btn{
+          background-color: var(--drx-red-base);
+          padding: 16px;
+          display: flex;
+          justify-content: center;
+          border-radius: 16px;
+          align-items: center;
+        }
         & ion-list{
           border-radius: 8px;
           & .detail-item{
@@ -193,13 +202,12 @@ mat-icon{
     background: var(--drx-red-base)!important;
   }
 }
-//
-//ion-header, ion-toolbar{
-//  padding-top: unset!important;
-//}
-
 ion-select-modal{
   & ion-content.sc-ion-select-modal-md{
     padding-top: 0!important;
   }
+}
+ion-accordion.accordion-animated>[slot=header] .ion-accordion-toggle-icon{
+  padding: 0!important;
+  margin: 0!important;
 }

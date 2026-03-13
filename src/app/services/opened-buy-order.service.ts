@@ -17,4 +17,10 @@ export class OpenedBuyOrderService {
   getOpenedBuyOrders(): Observable<ApiResponse<IOpenedBuyOrder[]>> {
     return this.httpClient.get<ApiResponse<IOpenedBuyOrder[]>>(`${this.env.API_URL}/opened-buy-order`);
   }
+
+  getOCPDF(pcNumber: string, fileName: string): Observable<Blob> {
+    return this.httpClient.get(
+      `${this.env.API_URL}/pdf/${pcNumber}/${fileName}`,
+    { responseType: 'blob' })
+  }
 }

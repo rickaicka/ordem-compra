@@ -144,20 +144,28 @@
               <ion-card-header [class]="'daruix-accordion__item__header__card__card-header'">
                 <ion-grid [class]="'daruix-grid-container accordion-header'">
                   <ion-row>
-                    <ion-col size="4">
-                      <span class="quicksand-sm bold">PC N°:</span><br/>
-                      <span class="quicksand-m bolder">{{item?.pc_number | pcNumberSplit}}</span>
+                    <ion-col size="12">
+                      <span class="quicksand-sm bold">OC N°: </span>
+                      <span class="quicksand-m bolder">{{item?.cod }}</span>
                     </ion-col>
-                    <ion-col size="8">
-                      <span class="quicksand-sm bold" [ngClass]="{'quicksand-ss': screen | isMini}"> Data de Entrega:</span><br/>
+                  </ion-row>
+                  <ion-row>
+                    <ion-col size="12">
+                      <span class="quicksand-sm bold" [ngClass]="{'quicksand-ss': screen | isMini}"> Data de Entrega: </span>
                       <span class="quicksand-m bolder">{{item?.dt_delivery}}</span>
                     </ion-col>
-<!--                    <ion-col size="2">-->
-<!--                      <span class="quicksand-sm bold">OC:</span><br/>-->
-<!--                      <p class="quicksand-m bolder search-buy-order">-->
-<!--                        <mat-icon (click)="searchBuyOrder(selectedOC)">search</mat-icon>-->
-<!--                      </p>-->
-<!--                    </ion-col>-->
+                  </ion-row>
+                  <ion-row>
+                    <ion-col size="12">
+                      <span class="quicksand-sm bold">Fornecedor: </span>
+                      <span class="quicksand-m supplier">{{item?.supplier | formatString:20}}</span>
+                    </ion-col>
+                  </ion-row>
+                  <ion-row>
+                    <ion-col size="12">
+                      <span class="quicksand-sm bold" [ngClass]="{'quicksand-ss': screen | isMini}"> Descrição: </span>
+                      <span class="quicksand-m bolder">{{item?.description | formatString:20}}</span>
+                    </ion-col>
                   </ion-row>
                 </ion-grid>
               </ion-card-header>
@@ -165,39 +173,7 @@
           </ion-item>
           <div class="ion-padding container-slot" slot="content">
             <div class="details-pc">
-              <ion-list>
-                <ion-item lines="full" class="detail-item">
-                  <p class="grid-detail">
-                    <span class="quicksand-sm bold">OC:</span>
-                    <span class="quicksand-m">{{item?.cod}}</span>
-                  </p>
-                </ion-item>
-                <ion-item lines="full" class="detail-item">
-                  <p class="grid-detail">
-                    <span class="quicksand-sm bold">OC VALOR:</span>
-                    <span class="quicksand-m">{{item?.buy_order_value}}</span>
-                  </p>
-                </ion-item>
-                <ion-item lines="full" class="detail-item">
-                  <p class="grid-detail">
-                    <span class="quicksand-sm bold">DATA DA COMPRA:</span>
-                    <span class="quicksand-m">{{item?.dt_solicitation}}</span>
-                  </p>
-                </ion-item>
-                <ion-item lines="full" class="detail-item">
-                  <p class="grid-detail">
-                    <span class="quicksand-sm bold">FORNECEDOR:</span>
-                    <span class="quicksand-m supplier">{{item?.supplier | formatString:20}}</span>
-                  </p>
-                </ion-item>
-<!--                <ion-item lines="full" class="detail-item">-->
-<!--                  <p class="grid-detail">-->
-<!--&lt;!&ndash;                    <span class="quicksand-sm bold">STATUS:</span>&ndash;&gt;-->
-<!--&lt;!&ndash;                    <span class="{{item?.classStatus}} {{item?.classStatus+'&#45;&#45;mobile'}}">{{item?.status}}</span>&ndash;&gt;-->
-<!--                    Ver detalhes da OC-->
-<!--                  </p>-->
-<!--                </ion-item>-->
-              </ion-list>
+              <button class="details-pc-btn quicksand-sm bold" (click)="downloadOC(item)">Mostrar detalhes da OC N°: {{item?.cod}}</button>
             </div>
           </div>
         </ion-accordion>

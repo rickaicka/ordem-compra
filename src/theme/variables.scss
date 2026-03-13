@@ -40,22 +40,19 @@ ion-content {
   padding-top: env(safe-area-inset-top);
   padding-bottom: env(safe-area-inset-bottom);
 }
-//.select-wrapper{
-//  @include createFont('s');
-//}
 
 ion-select::part(label){
   font-family: "Quicksand", serif !important;
   font-optical-sizing: auto !important;
   font-weight: 500 !important;
-  font-size: 15+px !important;
+  font-size: 15px !important;
 }
 
 ion-select::part(text){
   font-family: "Quicksand", serif !important;
   font-optical-sizing: auto !important;
   font-weight: 700 !important;
-  font-size: 17+px !important;
+  font-size: 17px !important;
 }
 
 

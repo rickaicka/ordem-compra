@@ -57,7 +57,7 @@
 
 
 @mixin media-medium-mobile{
-  @media (min-device-width: 480px) and (max-device-width: 768px) {
+  @media (min-width: 480px) and (max-width: 800px) and (orientation: portrait) {
     @content;
   }
 }

@@ -101,3 +101,8 @@ ion-toolbar{
 ion-header{
   padding-top: 0!important;
 }
+
+ion-accordion.accordion-animated>[slot=header] .ion-accordion-toggle-icon{
+  padding: 0!important;
+  margin: 0!important;
+}

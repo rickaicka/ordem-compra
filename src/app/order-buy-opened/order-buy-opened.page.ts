@@ -16,12 +16,16 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {BehaviorSubject, filter, from} from "rxjs";
 import {MatButtonModule} from "@angular/material/button";
 import {CustomValidators} from "../shared/validators/custom-validators";
-import {JsonPipe, NgClass, NgForOf, NgIf} from "@angular/common";
+import {DatePipe, JsonPipe, NgClass, NgForOf, NgIf} from "@angular/common";
 import {PcNumberSplitPipe} from "../shared/pipes/pc-number-split.pipe";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {ProgressCircleService} from "../services/progress-circle.service";
 import {IsMiniPipe} from "../shared/pipes/is-mini";
+import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
+import {Media} from "@capacitor-community/media";
+import {Browser} from "@capacitor/browser";
+import {environment} from "../../environments/environment";
 
 @Component({
   selector: 'app-order-buy-opened',
@@ -33,7 +37,6 @@ import {IsMiniPipe} from "../shared/pipes/is-mini";
     MatPaginatorModule,
     MatSortModule,
     FormatStringPipe,
-    PcNumberSplitPipe,
     MatFormFieldModule,
     MatInputModule,
     FormsModule,
@@ -54,6 +57,7 @@ export class OrderBuyOpenedPage implements OnInit, AfterViewInit  {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   width = window.innerWidth;
   height = window.innerHeight;
+  env = environment;
 
   get screen() {
     return { width: this.width, height: this.height };
@@ -293,5 +297,21 @@ export class OrderBuyOpenedPage implements OnInit, AfterViewInit  {
 
   selectedOrder(order: IOpenedBuyOrder) {
     this.selectedOC = order.cod;
+  }
+  downloadOC(item: IOpenedBuyOrder) {
+    this.openedBuyOrders.getOCPDF(item.pc_number, item.cod)
+      .subscribe({
+        next: async (blob: Blob) => {
+          const url = `${this.env.API_URL}/pdf/${item.pc_number}/${item.cod}`;
+          await Browser.open({ url });
+        },
+        error: (err) => {
+          if (err.status === 404) {
+            alert("PDF não encontrado.");
+          } else {
+            alert("Erro ao baixar o PDF.");
+          }
+        }
+      });
   }
 }

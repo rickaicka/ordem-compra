@@ -41,3 +41,7 @@
 //@use '@ionic/angular/css/palettes/dark.system.css';
 
 @use "@angular/material/prebuilt-themes/indigo-pink.css";
+ion-accordion.accordion-animated>[slot=header] .ion-accordion-toggle-icon{
+  padding: 0!important;
+  margin: 0!important;
+}
